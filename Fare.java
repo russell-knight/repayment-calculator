@@ -1,18 +1,19 @@
 import java.util.Date;
 
-/** The Fare object contains information such as the type, date and cost of each fare.
+/** The Fare object contains information such as the type, date and cost of each fare as well as a collective count of all fares taken.
 
 */
 
 public class Fare {
 	
-	private static int faresTaken;
+	private static int fareCount;
 	private Date fareDate;
-	private String fareType; // fullfare or concession, not sure what datatype? maybe boolean (isConcession)
+	private boolean isConcession;
 
 	public Fare(Date date, String type) {
 		fareDate = date;
 		fareType = type;
+		isConcession = false;
 	}
 	
 	//Accessor & Mutator Methods
@@ -21,7 +22,17 @@ public class Fare {
 		return fareDate;
 	}
 	
-	#TO-DO the rest of these methods...
+	public setFareDate(Date d) {
+		fareDate = d;
+	}
+	
+	public int getFareCount() {
+		return fareCount;
+	}
+	
+	public setFareCount(int c) {
+		fareCount = c;
+	}
 	
 	
 }
