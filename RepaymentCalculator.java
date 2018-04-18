@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class RepaymentCalculator {
 	
-	final static double CONCESSION_FARE = 2.05;
+	final static double CONCESSION_FARE = 2.05; // fares increase so constant will need to be reconsidered
 	final static double FULL_FARE = 4.10;
 	static DecimalFormat price = new DecimalFormat("#0.00");
 
