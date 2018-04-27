@@ -11,51 +11,47 @@ import java.util.Scanner;
 
 public class RepaymentCalculator {
 	
-	final static double CONCESSION_FARE = 2.05; // fares increase so constant will need to be reconsidered
-	final static double FULL_FARE = 4.10;
+	final static double CONCESSION_FARE = 2.15;
+	final static double FULL_FARE = 4.30;
 	static DecimalFormat price = new DecimalFormat("#0.00");
 
 	public static void main(String[] args) {
 		
 		Scanner keyboard = new Scanner(System.in);
-		String item;
-		double cost;
 		int menuNumber = -1;
 		int tripsTaken = 0;
 		ArrayList<Item> itemList = new ArrayList<Item>();
 		
-		
-		//UserInterface ui = new UserInterface();
-		
-		
-		
 		while (menuNumber != 7) {
 			
+			StringBuffer sb = new StringBuffer();
 			menuNumber = displayMenu();
 			
 			switch(menuNumber) {
 			
-			case 1:
-				item = JOptionPane.showInputDialog("What is the name of the item?");
-				cost = Double.parseDouble(JOptionPane.showInputDialog("How much did " + item + " cost?"));
-				
-				Item newItem =  new Item(item, cost);
-				itemList.add(newItem);
-				
+			case 1:	// Add Item
+				addItem(itemList);
+				break;
+					
+			case 2: // Remove Item
+				removeItem(itemList);
 				break;
 				
-			case 2:
-				JOptionPane.showMessageDialog(null, "To be added");
+			case 3: // View Items
+				viewItems(itemList);
 				break;
-				
-			case 3:
-				for(int i = 0; i < itemList.size(); i++) {
-					JOptionPane.showMessageDialog(null, itemList.get(i).toString());
-				}
-				break;
-				
+
 			case 4:
-				tripsTaken = Integer.parseInt(JOptionPane.showInputDialog("How many trips have you taken?"));
+          		try {
+            		tripsTaken = Integer.parseInt(JOptionPane.showInputDialog("How many trips have you taken?"));
+          		}
+          		catch (Exception NumberFormatException) {
+            		JOptionPane.showMessageDialog(null, "Trips must be entered as a positive whole integer.", "Error", JOptionPane.ERROR_MESSAGE);
+          		}
+				if (tripsTaken < 0) {
+					JOptionPane.showMessageDialog(null, "You cannot enter a negative number.");
+						tripsTaken = 0;
+				}
 				break;
 				
 			case 5:
@@ -79,11 +75,8 @@ public class RepaymentCalculator {
 			case 7:
 				JOptionPane.showMessageDialog(null, "Thanks for using the program!");
 				break;
-			}
-			
-			
+			}	
 		}
-		
 	}
 	
 	/**
@@ -95,7 +88,8 @@ public class RepaymentCalculator {
 		
 		int menuNumber = -1;
 		
-		menuNumber = Integer.parseInt(JOptionPane.showInputDialog("Please select one of the following options:"
+		try {
+			menuNumber = Integer.parseInt(JOptionPane.showInputDialog("Please select one of the following options:"
 				+ "\n1) Add Item"
 				+ "\n2) Remove Item"
 				+ "\n3) View Items"
@@ -103,8 +97,101 @@ public class RepaymentCalculator {
 				+ "\n5) View Trips Taken"
 				+ "\n6) View Cost Remaining"
 				+ "\n7) Exit"));
-		
+		}
+		catch (Exception NumberFormatException) {
+			JOptionPane.showMessageDialog(null, "Please select a number from 1 to 7", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 		return menuNumber;
 	}
-
+	
+	/**
+	* addItem allows adding of items that have contributed to the cost of riding
+			e.g bike, service, mud-guards etc.
+	**/
+	
+	public static void addItem(ArrayList<Item> itemList){
+		
+		String itemName;
+		double cost = 0;
+		
+		itemName = JOptionPane.showInputDialog("What is the name of the item?");
+				if (itemName.length() == 0) {
+					JOptionPane.showMessageDialog(null, "Item name cannot be blank");
+				}
+				else {
+					try {
+						cost = Double.parseDouble(JOptionPane.showInputDialog("How much did " + itemName + " cost?"));
+					}
+					catch (Exception NumberFormatException) {
+						JOptionPane.showMessageDialog(null, "The cost must be entered as a number without characters or symbols. " +
+													  "e.g 340.70 (which would represent $340.70)", "Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					Item newItem =  new Item(itemName, cost);
+					itemList.add(newItem);
+				}
+		}
+	
+	/**
+	* removeItem allows items to be removed from the list.
+	**/
+	
+	public static void removeItem(ArrayList<Item> itemList){
+		
+		int itemNumber = 0;
+		StringBuffer sb = new StringBuffer();
+		
+		if(itemList.size() == 0) {
+			JOptionPane.showMessageDialog(null, "There are no items to remove. To add an item select Option 1 from the menu.");
+		}
+		else {
+			sb.append("Enter the Item Number of the item you wish to remove.\n\n");
+			for (int i = 0; i < itemList.size(); i++){
+				sb.append("Item Number: " + (i+1) + "\n"
+						  + itemList.get(i).toString() + "\n\n");
+			}
+			try {
+				itemNumber = (Integer.parseInt(JOptionPane.showInputDialog(null, sb)) -1);
+			}
+			catch (NumberFormatException e){
+				JOptionPane.showMessageDialog(null, "You must enter a number between 1 & " + itemList.size(), "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			try {
+				int reply = JOptionPane.showConfirmDialog(null, "Do you wish to remove the following item?\n\n", "Confirm" + itemList.get(itemNumber), JOptionPane.YES_NO_OPTION);
+				
+				if (reply == JOptionPane.YES_OPTION) {
+					itemList.remove(itemNumber);
+					JOptionPane.showMessageDialog(null, "Item removed." );
+				}
+				else if (reply == JOptionPane.NO_OPTION) {
+					JOptionPane.showMessageDialog(null, "Item not removed." );
+				}
+			}
+			catch (IndexOutOfBoundsException e) {
+				JOptionPane.showMessageDialog(null, "The value you entered doesn't exist, please enter a item number listed.", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}		
+	}
+	
+	/**
+	*	viewItems displays a window of all the items listed.
+	* */
+	
+	public static void viewItems(ArrayList<Item> itemList) {
+		
+		StringBuffer sb = new StringBuffer();
+		
+		if(itemList.size() == 0) {
+			JOptionPane.showMessageDialog(null, "There are no items to display. To add an item select Option 1 from the menu.");
+		}
+		else {
+			for (int i = 0; i < itemList.size(); i++){
+				sb.append("Item Number: " + (i+1) + "\n"
+						+ itemList.get(i).toString() + "\n\n");
+			}
+			JOptionPane.showMessageDialog(null, sb);
+		}
+	}
 }
