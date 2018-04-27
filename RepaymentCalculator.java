@@ -86,22 +86,32 @@ public class RepaymentCalculator {
 	
 	public static int displayMenu(){
 		
+		String input = "";
 		int menuNumber = -1;
 		
-		try {
-			menuNumber = Integer.parseInt(JOptionPane.showInputDialog("Please select one of the following options:"
+		input = JOptionPane.showInputDialog("Please select one of the following options:"
 				+ "\n1) Add Item"
 				+ "\n2) Remove Item"
 				+ "\n3) View Items"
 				+ "\n4) Enter Trips Taken"
 				+ "\n5) View Trips Taken"
 				+ "\n6) View Cost Remaining"
-				+ "\n7) Exit"));
+				+ "\n7) Exit");
+		
+		if (input == null) {
+			return 7;
 		}
-		catch (Exception NumberFormatException) {
-			JOptionPane.showMessageDialog(null, "Please select a number from 1 to 7", "Error", JOptionPane.ERROR_MESSAGE);
+		else {
+			try {
+				menuNumber = Integer.parseInt(input);
+			}
+		
+			catch (NumberFormatException n) {
+				JOptionPane.showMessageDialog(null, "Please select a number from 1 to 7", "Error", JOptionPane.ERROR_MESSAGE);
+			
+			}
 		}
-		return menuNumber;
+				return menuNumber;
 	}
 	
 	/**
