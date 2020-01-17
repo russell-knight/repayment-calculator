@@ -30,15 +30,12 @@ public class RepaymentCalculator {
 			case 1:	// Add Item
 				addItem(itemList);
 				break;
-					
 			case 2: // Remove Item
 				removeItem(itemList);
 				break;
-				
 			case 3: // View Items
 				viewItems(itemList);
 				break;
-
 			case 4:
           		try {
             		tripsTaken = Integer.parseInt(JOptionPane.showInputDialog("How many trips have you taken?"));
@@ -51,11 +48,9 @@ public class RepaymentCalculator {
 						tripsTaken = 0;
 				}
 				break;
-				
 			case 5:
 				JOptionPane.showMessageDialog(null, "You have taken " + tripsTaken + " trips on the bike.");
 				break;
-				
 			case 6:
 				double totalCost = 0;
 				for (int i = 0; i < itemList.size(); i++) {
@@ -69,7 +64,6 @@ public class RepaymentCalculator {
 													"\nPrice remaining with full fare: $" + price.format(totalCost-(tripsTaken*FULL_FARE)));
 
 				break;
-				
 			case 7:
 				JOptionPane.showMessageDialog(null, "Thanks for using the program!");
 				break;
