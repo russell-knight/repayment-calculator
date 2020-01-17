@@ -10,9 +10,7 @@ import java.util.Scanner;
   *  */
 
 public class RepaymentCalculator {
-	
-	final static double CONCESSION_FARE = 2.15;
-	final static double FULL_FARE = 4.30;
+
 	static DecimalFormat price = new DecimalFormat("#0.00");
 
 	public static void main(String[] args) {

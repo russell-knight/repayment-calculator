@@ -5,10 +5,15 @@ import java.util.Date;
 */
 
 public class Fare {
-	
+	// public transport fare prices Melbourne
+	final static double CONCES_2019 = 2.15;
+	final static double FULL_2019 = 4.30;
+	final static double CONCES_2020 = 2.25;
+	final static double FULL_2020 = 4.50;
+
 	private static int faresTaken;
 	private Date fareDate;
-	private String fareType; // fullfare or concession, not sure what datatype? maybe boolean (isConcession)
+	private boolean isConcession;
 
 	public Fare(Date date, String type) {
 		fareDate = date;
